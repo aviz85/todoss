@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize
     renderTasks();
     updateTasksCount();
+    taskInput.focus();
 
     // Event Listeners
     addTaskBtn.addEventListener('click', addTask);
@@ -41,20 +42,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const newTask = {
                 id: Date.now(),
                 text: taskText,
-                completed: false
+                completed: false,
+                createdAt: new Date().toISOString()
             };
+            
+            // Add task with animation
             tasks.push(newTask);
             saveTasks();
             renderTasks();
             updateTasksCount();
+            
+            // Reset input with focus
             taskInput.value = '';
+            taskInput.focus();
+            
+            // Show success feedback
+            showNotification('משימה נוספה בהצלחה!');
         }
     }
 
     function toggleTask(id) {
         tasks = tasks.map(task => {
             if (task.id === id) {
-                return { ...task, completed: !task.completed };
+                const updated = { ...task, completed: !task.completed };
+                // Show feedback
+                showNotification(updated.completed ? 'משימה הושלמה! 🎉' : 'משימה סומנה כלא הושלמה');
+                return updated;
             }
             return task;
         });
@@ -64,17 +77,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function deleteTask(id) {
-        tasks = tasks.filter(task => task.id !== id);
-        saveTasks();
-        renderTasks();
-        updateTasksCount();
+        // Get task first to show its text in notification
+        const taskToDelete = tasks.find(task => task.id === id);
+        
+        // Add fade out animation before removing
+        const taskElement = document.querySelector(`[data-id="${id}"]`);
+        if (taskElement) {
+            taskElement.classList.add('fade-out');
+            setTimeout(() => {
+                tasks = tasks.filter(task => task.id !== id);
+                saveTasks();
+                renderTasks();
+                updateTasksCount();
+                showNotification(`"${taskToDelete.text}" נמחקה`);
+            }, 300);
+        }
     }
 
     function clearCompleted() {
+        const completedCount = tasks.filter(task => task.completed).length;
+        
+        if (completedCount === 0) {
+            showNotification('אין משימות שהושלמו למחיקה');
+            return;
+        }
+        
         tasks = tasks.filter(task => !task.completed);
         saveTasks();
         renderTasks();
         updateTasksCount();
+        showNotification(`${completedCount} משימות שהושלמו נמחקו`);
     }
 
     function renderTasks() {
@@ -86,9 +118,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
         });
 
+        if (filteredTasks.length === 0) {
+            const emptyMessage = document.createElement('li');
+            emptyMessage.className = 'empty-list';
+            
+            if (currentFilter === 'all') {
+                emptyMessage.innerHTML = '<i class="fas fa-inbox"></i><p>אין משימות. הוסף משימה חדשה!</p>';
+            } else if (currentFilter === 'active') {
+                emptyMessage.innerHTML = '<i class="fas fa-check-circle"></i><p>אין משימות פעילות. כל הכבוד!</p>';
+            } else {
+                emptyMessage.innerHTML = '<i class="fas fa-tasks"></i><p>אין משימות שהושלמו</p>';
+            }
+            
+            taskList.appendChild(emptyMessage);
+            return;
+        }
+
         filteredTasks.forEach(task => {
             const taskItem = document.createElement('li');
             taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
+            taskItem.setAttribute('data-id', task.id);
             
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
@@ -115,10 +164,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateTasksCount() {
         const activeTasks = tasks.filter(task => !task.completed).length;
-        tasksCount.textContent = `${activeTasks} משימות נותרו`;
+        tasksCount.innerHTML = `<i class="fas fa-clipboard-check"></i> ${activeTasks} משימות נותרו`;
     }
 
     function saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+    
+    function showNotification(message) {
+        // Check if notification already exists and remove it
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Show notification with animation
+        setTimeout(() => notification.classList.add('show'), 10);
+        
+        // Remove notification after delay
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
     }
 }); 

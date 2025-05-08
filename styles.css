@@ -1,3 +1,19 @@
+:root {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5; 
+    --completed-color: #10b981;
+    --delete-color: #ef4444;
+    --bg-color: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-color: #1f2937;
+    --text-light: #4b5563;
+    --border-color: #e5e7eb;
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,81 +22,132 @@
 }
 
 body {
-    background-color: #f5f5f5;
+    background-color: var(--bg-color);
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    color: var(--text-color);
 }
 
 .container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
     width: 90%;
-    max-width: 500px;
-    padding: 20px;
+    max-width: 550px;
+    padding: 30px;
+    transition: var(--transition);
 }
 
 h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .todo-input {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius);
+    overflow: hidden;
 }
 
 #task-input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px 0 0 5px;
+    padding: 15px;
+    border: none;
+    border-radius: var(--radius) 0 0 var(--radius);
     font-size: 16px;
+    transition: var(--transition);
+}
+
+#task-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-color);
 }
 
 #add-task {
-    background-color: #4caf50;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 20px;
     cursor: pointer;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
     font-size: 16px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+#add-task:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+#add-task:active {
+    transform: translateY(0);
 }
 
 .filters {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    gap: 5px;
 }
 
 .filter {
     background-color: transparent;
-    border: none;
-    color: #777;
+    border: 2px solid var(--border-color);
+    color: var(--text-light);
     margin: 0 5px;
     cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.filter:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .filter.active {
-    background-color: #4caf50;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: white;
 }
 
 #task-list {
     list-style-type: none;
+    margin: 0 0 20px 0;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: var(--radius);
 }
 
 .task-item {
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+    background-color: var(--card-bg);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.task-item:hover {
+    background-color: #f9fafb;
 }
 
 .task-item:last-child {
@@ -88,48 +155,178 @@ h1 {
 }
 
 .task-check {
-    margin-left: 10px;
-    width: 20px;
-    height: 20px;
+    margin-left: 15px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
+    accent-color: var(--completed-color);
+    transition: var(--transition);
 }
 
 .task-text {
     flex: 1;
     font-size: 16px;
+    padding: 0 15px;
+    transition: var(--transition);
 }
 
 .task-item.completed .task-text {
     text-decoration: line-through;
-    color: #888;
+    color: var(--text-light);
 }
 
 .delete-task {
-    color: #e74c3c;
+    color: var(--text-light);
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    transition: var(--transition);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.delete-task:hover {
+    color: var(--delete-color);
+    background-color: #fee2e2;
 }
 
 .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #777;
+    color: var(--text-light);
     font-size: 14px;
     margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+#tasks-count {
+    font-weight: 600;
 }
 
 #clear-completed {
     background: none;
     border: none;
-    color: #777;
+    color: var(--text-light);
     cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 4px;
 }
 
 #clear-completed:hover {
-    text-decoration: underline;
+    color: var(--delete-color);
+    background-color: #fee2e2;
+}
+
+/* עיצוב ההודעה כשאין משימות */
+.empty-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.empty-list i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-list p {
+    font-size: 1.1rem;
+}
+
+/* אנימציית מחיקה */
+.fade-out {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+}
+
+/* התראות */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-weight: 500;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* שיפור תצוגת אייקונים */
+i {
+    margin: 0 5px;
+}
+
+/* הוספת אנימציות נוספות */
+@keyframes scaleIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.task-check:checked {
+    animation: scaleIn 0.2s ease forwards;
+}
+
+#add-task i {
+    transition: transform 0.2s ease;
+}
+
+#add-task:hover i {
+    transform: rotate(90deg);
+}
+
+/* משפר מראה בעת גלילה */
+#task-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+#task-list::-webkit-scrollbar-track {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+#task-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+/* מותאם למסכים ניידים */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.7rem;
+    }
+    
+    .filter {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
 } 
