@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול משימות</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ניהול משימות</h1>
+        <div class="todo-input">
+            <input type="text" id="task-input" placeholder="הוסף משימה חדשה...">
+            <button id="add-task">הוסף</button>
+        </div>
+        <div class="filters">
+            <button class="filter active" data-filter="all">הכל</button>
+            <button class="filter" data-filter="active">פעילות</button>
+            <button class="filter" data-filter="completed">הושלמו</button>
+        </div>
+        <ul id="task-list"></ul>
+        <div class="info">
+            <span id="tasks-count">0 משימות נותרו</span>
+            <button id="clear-completed">נקה משימות שהושלמו</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
