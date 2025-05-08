@@ -14,10 +14,18 @@
             <input type="text" id="task-input" placeholder="הוסף משימה חדשה...">
             <button id="add-task"><i class="fas fa-plus"></i> הוסף</button>
         </div>
+        
+        <!-- תוספת שדה תזכורת למשימה חדשה -->
+        <div class="reminder-input">
+            <input type="datetime-local" id="reminder-input">
+            <label for="reminder-input"><i class="fas fa-bell"></i> הוסף תזכורת למשימה</label>
+        </div>
+        
         <div class="filters">
             <button class="filter active" data-filter="all">הכל</button>
             <button class="filter" data-filter="active">פעילות</button>
             <button class="filter" data-filter="completed">הושלמו</button>
+            <button class="filter" data-filter="reminder">תזכורות</button>
         </div>
         <ul id="task-list"></ul>
         <div class="info">
@@ -25,6 +33,31 @@
             <button id="clear-completed"><i class="fas fa-broom"></i> נקה משימות שהושלמו</button>
         </div>
     </div>
+    
+    <!-- חלון מודל לעריכת משימה -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-edit"></i> עריכת משימה</h2>
+            <div class="edit-form">
+                <input type="text" id="edit-task-input" placeholder="טקסט משימה">
+                <div class="edit-reminder">
+                    <input type="datetime-local" id="edit-reminder-input">
+                    <label for="edit-reminder-input"><i class="fas fa-bell"></i> תזכורת למשימה</label>
+                </div>
+                <div class="edit-priority">
+                    <label>עדיפות:</label>
+                    <select id="edit-priority-input">
+                        <option value="low">נמוכה</option>
+                        <option value="medium">בינונית</option>
+                        <option value="high">גבוהה</option>
+                    </select>
+                </div>
+                <button id="save-edit-btn"><i class="fas fa-save"></i> שמור שינויים</button>
+            </div>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html> 
